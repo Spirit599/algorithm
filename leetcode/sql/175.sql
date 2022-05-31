@@ -1,5 +1,4 @@
-175.组合两个表
-//外连接
+-- 外连接
 select
 	p.FirstName, p.LastName, a.City, a.State
 from

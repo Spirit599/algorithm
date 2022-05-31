@@ -1,3 +1,5 @@
+#ifndef ____LIST__
+#define ____LIST__
 
 namespace ___list
 {
@@ -38,13 +40,13 @@ namespace ___list
 		__ptr(ptr)
 		{}
 	
-		__it& operator++()
+		__it& operator++() //++obj
 		{
 			__ptr = __ptr->_next;
 			return *this;
 		}
 
-		__it& operator--()
+		__it& operator--() //--obj
 		{
 			__ptr = __ptr->_prev;
 			return *this;
@@ -53,6 +55,11 @@ namespace ___list
 		_Ty& operator*() const
 		{
 			return __ptr->_data;
+		}
+
+		_Ty* operator->() const
+		{
+			return &(operator*());
 		}
 
 		bool operator==(const __it &it) const
@@ -127,7 +134,7 @@ namespace ___list
 			return *begin();
 		}
 
-		const _Ty& front()const
+		const _Ty& front() const
 		{
 			return *begin();
 		}
@@ -137,7 +144,7 @@ namespace ___list
 			return *--end();
 		}
 
-		const _Ty& back()const
+		const _Ty& back() const
 		{
 			return *--end();
 		}
@@ -230,3 +237,5 @@ namespace ___list
 		__unint _size;
 	};
 }
+
+#endif

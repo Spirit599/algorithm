@@ -1,0 +1,167 @@
+mysql
+
+登录
+	mysql -uroot -p
+
+查看有哪些数据库
+	show databases;
+
+创建数据库
+	create database jiangxy;
+
+选择数据库
+	use jiangxy;
+
+基本单元是表
+	行：被称为数据/记录
+	列：字段
+		字段名，数据类型，约束等属性
+
+查看表
+	show tables;
+
+SQL语言类型
+	DQL 数据查询语言
+		select
+	QML 数据操作语言 操作数据
+		insert delete update
+	DDL	数据定义语言 动的表结构
+		create drop alter
+	TCL 事务控制语言
+		commit 事务提交
+		rollback 事务回滚
+	DCL 数据控制语言
+		grant 授权
+		revoke 撤销权限
+
+导入table
+	source 路径
+
+
+查询字段
+	select * from table
+查表结构
+	desc table
+查看当前是哪个数据库
+	select database();
+
+
+DQL
+	select 字段名，字段名 from table
+	select * from table
+		效率低 可读性差
+	别名
+	select 字段名 as 别名 from table
+
+	字段可以参与数学运算
+	select sal*12 as year_sal from table
+
+所有数据库中，字符串用单引号，这是标准！！
+
+条件查询
+	select
+	from
+	where
+条件
+=
+<> !=
+<
+<=
+>
+>=
+between and     左小右大
+is null/is not null    null不能用等于衡量
+
+and 并且
+or 或者
+	优先级and>or
+in/not in 多个or
+	job in('manager','salesman')
+like 模糊查询
+	% 任意多个字符
+	_ 任意一个字符
+	\_ \%转义字符
+
+
+排序
+	默认升序 order by (sal asc)
+	降序 order by sal desc
+
+	两个排序
+		order by sal asc, ename asc
+
+select
+from
+where
+order by
+	from where select order by
+
+
+单行处理函数
+lower
+upper
+substr(ename,1,2)
+	下标从1开始，长度2
+	注：下标1就是第1个字符，和语言不同
+length 长度
+concat 拼接字符串
+trim 去前后空格
+round 四舍五入
+	round(123.45678, 1)
+		保留一个小数，可以位负数
+rand 随机数
+ifnull
+	null只要参与运算一定null
+	ifnull(数据，哪个值)
+
+case 
+	when then
+	else
+end
+
+分组函数
+count
+sum
+max
+min
+avg
+得先分组 如果不分组默认为一组
+
+分组函数，忽略NULL，不用提前处理
+分组函数不能用在having子句中
+
+分组查询
+	select
+	from
+	group by
+
+有group by，select语言只能跟参与分组的字段，和分组函数
+
+select
+from
+where
+group by
+order by
+
+实际
+from 
+	where 
+		group by 
+			having
+				select 
+					order by
+
+
+select deptno,job,max(sal) from emp group by deptno,job;
+
+
+
+
+
+
+
+
+
+
+
+
