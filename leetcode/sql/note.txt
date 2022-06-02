@@ -154,14 +154,76 @@ from
 
 select deptno,job,max(sal) from emp group by deptno,job;
 
+distinct
+	去重
+	必须在最前面
+	可以联和去重
+
+
+连接查询
+	内连接
+		等值连接
+		非等值连接
+		自连接
+	外连接
+		左外连接
+		右外连接
+	全连接
+
+(非)等值连接
+	select
+		from
+			join
+				on
+					where
+
+ select e.ename,e.sal,s.grade from emp as e inner join salgrade as s on e.sal between s.losal and s.hisal;
+
+自连接
+select a.ename as staff, b.ename as boss from emp a join emp b on a.mgr = b.empno;
+
+内连接没有占主导的
+
+外连接
+	跟上面一样
+	left right 谁是主表
+	主表的每一行都要有 即使没匹配
 
 
 
 
 
 
+select e.ename,d.dname,e.sal,s.grade
+from emp e
+join dept d
+on e.deptno = d.deptno
+join salgrade s
+on e.sal between s.losal and s.hisal;
 
 
+子查询
+select嵌套
+	select
+		(select)
+	from
+		(select)
+	where
+		(select)
 
+where子查询
+	select ename,sal from emp where sal > (select min(sal) from emp);
+from子查询
+	select a.job,a.avg_sal,s.grade from (select job,avg(sal) avg_sal from emp group by job) a join salgrade s on a.avg_sal between s.losal and s.hisal;
+select子查询
+	select后的子查询一次只能返回一条结果
+	尚硅谷宋红康p46
 
+union
+	效率高，避免连接
+	字段要一样
 
+limit 重要
+	只用一部分数据，用于分页
+	select ename,sal from emp order by sal desc limit 0, 5;
+	在order by之后执行
