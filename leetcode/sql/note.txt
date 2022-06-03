@@ -227,3 +227,55 @@ limit 重要
 	只用一部分数据，用于分页
 	select ename,sal from emp order by sal desc limit 0, 5;
 	在order by之后执行
+
+
+
+DDL
+	CREATE DROP ALTER
+	CREATE TABLE 表名 (
+	字段名1, 数据类型 default 0,
+	字段名2, 数据类型,
+	字段名2, 数据类型
+	);
+
+	varchar 255
+	char 比varchar快 255
+	int 11
+	bigint
+	float
+	double
+	date 短日期
+	datetime 长日期
+	clob 字符大对象 4G
+	blob 二进制大对象 图片视频 插入数据用IO流
+
+	建表之前先
+	drop table if exists t_student;
+
+insert
+	insert into 表名(字段1，字段2，...) values(值1，值2)
+	字段名可省略
+
+format 数字格式化
+	 format(sal, '$999.999')
+
+str_to_date varchar到date
+data_format date到varchar
+
+str_to_date('1998-03-17','%Y-%m-%d')
+	%Y
+	%m
+	%d
+	%h
+	%i
+	%s
+	如何是如上的格式可以不写str_to_date,直接'1998-03-17'
+
+date_format(birth,'%Y/%m/%d')
+默认%Y-%m-%d
+
+
+date 年月日
+datetime 年月日时分秒 
+	%Y-%m-%d %h:%i:%s
+	now() datetime类型
