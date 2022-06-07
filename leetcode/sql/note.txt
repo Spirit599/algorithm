@@ -253,7 +253,10 @@ DDL
 	drop table if exists t_student;
 
 insert
-	insert into 表名(字段1，字段2，...) values(值1，值2)
+	insert into 表名(字段1，字段2，...) values(值1，值2)，
+	(值1，值2)，
+	(值1，值2)，
+	(值1，值2)
 	字段名可省略
 
 format 数字格式化
@@ -279,3 +282,46 @@ date 年月日
 datetime 年月日时分秒 
 	%Y-%m-%d %h:%i:%s
 	now() datetime类型
+
+update 表名 set 字段名1=值1 字段名2=值2 where 条件
+delete from 表名 where 条件
+
+复制表
+create table 表名 as select * from emp;
+
+
+
+delete from 表名(DML)
+支持回滚rollback 逻辑删除、
+truncate 快 不支持回滚
+truncate table 表名(DDL) 删数据
+drop table 表名 删表 结构都没了
+
+alter修改表结构
+
+非空约束       not null
+唯一性约束     unique 列级约束
+主键约束 PK    primary key
+外键约束 FK    
+检查约束
+
+联合约束
+	name varchar(255) not null unique
+	就是主键了PK mysql是这样的
+	Oracle不是这样的
+
+联合唯一
+	unique(name, email) 表级约束
+复合主键
+	primary key(name, email) 表级约束
+	不建议使用
+
+自然主键：
+业务主键：
+自然主键用的多，因为不影响业务
+
+自增约束：
+	id int primary key auto_increment 
+
+外键约束：
+	
