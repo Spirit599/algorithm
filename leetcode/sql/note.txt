@@ -320,8 +320,32 @@ alter修改表结构
 业务主键：
 自然主键用的多，因为不影响业务
 
-自增约束：
+自增约束:
 	id int primary key auto_increment 
 
 外键约束：
-	
+	classno int primary key
+	foreign key(cno) references t_class(classno)
+
+外键在父表中至少是unique约束，可以为NULL
+
+存储引擎
+InnoDB
+支持的引擎
+	show engines \G
+
+常用的引擎
+	MyISAM
+	InnoDB
+		支持事务 安全
+	MEMORY
+		放在内存中，断电消失 就是快
+
+事务
+	ACID
+	多条DML同时成功或者同时失败
+
+事务相关语句 DML	
+	insert
+	delete
+	update
