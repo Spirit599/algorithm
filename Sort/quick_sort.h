@@ -4,6 +4,10 @@ void quick_sort(vector<int>& arr, int k, int start, int end)
         return ;
     int left = start;
     int right = end;
+
+    int rand_index = rand() % (end - start + 1) + start;
+    swap(arr[rand_index], arr[start]);
+
     while(left < right)
     {
         while(left < right && arr[right] >= arr[start])
