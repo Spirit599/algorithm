@@ -343,9 +343,90 @@ InnoDB
 
 事务
 	ACID
-	多条DML同时成功或者同时失败
+		A 事务是最小的控制单元 不可再分
+		C 多条DML同时成功或者同时失败 保证数据的一致性
+		I A事务和B事务有一定隔离
+		D 事务结束的一个保障
+	
 
 事务相关语句 DML	
 	insert
 	delete
 	update
+
+
+事务控制
+	start transaction;
+	commit;
+	rollback;
+
+事务的隔离性
+	读未提交 read uncommitted
+		事务A可以读到事务B未提交的数据
+		脏读
+	读已提交 read committed
+		事务A只能读到事务B提交后的数据
+		没有脏读
+		有不可重复读 就是前后不一致
+		比较真实的数据，每次读到的很真实
+	可重复读 repeatable read
+		事务A开启后，每一次在事务A中读到的数据都是一样的
+		即使被其他事务改了 也不改
+		幻读 
+	序列化/串行化 serializable
+		解决了所有问题
+		串行 不能并发 慢
+
+
+查看系统隔离级别：select @@global.tx_isolation;
+查看会话隔离级别(5.0以上版本)：select @@tx_isolation;
+查看会话隔离级别(8.0以上版本)：select @@transaction_isolation;
+
+如何修改mysql中的事务隔离级别：
+set session transaction isolation level repeatable read; 设置会话隔离级别为可重复读
+set session transaction isolation level read uncommitted; 设置会话隔离级别为读未提交
+set session transaction isolation level read committed; 设置会话隔离级别为读已提交
+
+索引
+	mysql 有unique就有索引
+	任何一张表的任何一条记录都有一个硬盘存储编号
+	mysql 索引是一个单独的对象，不同的索引以不同的形式存在
+		MyISAM .MYI
+		InnoDB tablespace
+		MEMORY 内存
+
+	经常出现在where后面
+	DML操作少
+
+创建索引
+	create index emp_no on emp(empno);
+删除索引
+	drop index emp_no on emp;
+
+查看是否使用索引
+	explain select * from emp where ename = 'jack';
+
+索引失效
+	select * from emp where ename like '%T';
+	or 不是都有索引
+	复合索引 不是最左侧
+	select * from emp where sal + 1 = 800;
+	索引列使用了函数 lower(ENAME) = 'jack'
+
+索引是进行优化的重要手段
+
+
+视图
+	create view emp_view as select * from emp;
+	drop view emp_view
+
+	对视图增删改查，原表也会修改
+	封装的思想
+
+导出数据库
+	mysqldump jiangxy > 路径 -uroot -p123456
+	指定表
+	mysqldump jiangxy emp > 路径 -uroot -p123456
+导入数据库
+	先登录
+	source 路径
