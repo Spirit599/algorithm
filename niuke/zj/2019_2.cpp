@@ -5,7 +5,7 @@ using namespace std;
 //求最大值
 //(high - low + 1) / 2 + low
 //low = mid；
-//high = mid + 1；
+//high = mid - 1；
 //求最小值
 //mid = (high - low) / 2 + low;
 //low = mid + 1;
