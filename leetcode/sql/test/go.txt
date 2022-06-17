@@ -9,3 +9,47 @@ select a.ename, a.sal
 from emp a
 join (select deptno, avg(sal) avg_sal from emp group by deptno) b
 on a.sal > b.avg_sal and a.deptno = b.deptno;
+
+#3、取得部门中（所有人的）平均的薪水等级
+select deptno, avg(grade)
+from (select a.deptno, b.grade
+	from emp a
+	join salgrade b
+	on sal between losal and hisal) c
+group by deptno;
+
+#4、不准用组函数（Max），取得最高薪水（给出两种解决方案）
+select sal from emp order by sal desc limit 0,1;
+select distinct sal from emp where sal >= ALL (select sal from emp);
+select sal from emp where sal not in (select distinct a.sal from emp a join emp b on a.sal < b.sal);
+
+#5、取得平均薪水最高的部门的部门编号（至少给出两种解决方案）
+select deptno, avg(sal) avg_sal from emp group by deptno order by avg_sal desc limit 0,1;
+
+
+#6、取得平均薪水最高的部门的部门名称
+select a.dname
+from dept a
+where deptno = (select deptno from emp group by deptno order by avg(sal) desc limit 0,1);
+
+#7、求平均薪水的等级最低的部门的部门名称
+select a.grade, b.deptno, c.dname
+from salgrade a
+join (select deptno, avg(sal) avg_sal from emp group by deptno) b
+on b.avg_sal between losal and hisal
+join dept c
+on c.deptno = b.deptno
+where a.grade = (select a.grade
+				from salgrade a
+				join (select avg(sal) avg_sal from emp group by deptno) b
+				on b.avg_sal between losal and hisal
+				order by a.grade asc
+				limit 0,1)
+
+#8、取得比普通员工(员工代码没有在 mgr 字段上出现的)的最高薪水还要高的领导人姓名
+select ename, sal
+from emp
+where sal >
+(select max(sal)
+from emp
+where empno not in (select distinct mgr empno from emp where mgr is not null));

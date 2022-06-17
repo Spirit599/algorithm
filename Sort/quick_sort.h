@@ -1,4 +1,4 @@
-void quick_sort(vector<int>& arr, int k, int start, int end)
+void quick_sort(vector<int>& arr, int start, int end)
 {
     if(start >= end)
         return ;
@@ -24,22 +24,45 @@ void quick_sort(vector<int>& arr, int k, int start, int end)
     return ;
 }
 
-vector<int> quick_choose(vector<int>& arr, int k, int start, int end)
+
+
+
+int findKthLargest(vector<int>& nums, int k) 
+{
+    int start = 0;
+    int end = nums.size() - 1;
+
+    while(1)
+    {
+        int index = partition(nums, start, end);
+        if(index == k - 1)
+            return nums[index];
+        else if(index < k - 1)
+            start = index + 1;
+        else
+            end = index - 1;
+    }
+}
+
+int partition(vector<int>& arr, int start, int end)
 {
     int left = start;
     int right = end;
+
+    int rand_index = rand() % (end - start + 1) + start;
+    swap(arr[rand_index], arr[start]);
+
+
     while(left < right)
     {
-        while(left < right && arr[right] >= arr[start])
+        while(left < right && arr[right] <= arr[start])
             --right;
-        while(left < right && arr[left] <= arr[start])
+        while(left < right && arr[left] >= arr[start])
             ++left;
         swap(arr[left], arr[right]);
     }
-    swap(arr[left], arr[start]);
-    if(left > k)
-        return quick_choose(arr, k, start, left - 1);
-    else if(left < k)
-        return quick_choose(arr, k, left + 1, end);
-    return {arr.begin(), arr.begin() + k};
-}
+
+    swap(arr[start], arr[left]);
+    return left;
+} 
+
