@@ -1,12 +1,14 @@
 import os
 import sys
+import time
 
 
+message = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+message = " \"" + message + "\" "
 
-message = " default "
 repository = " algorithm_ssh "
 branch = " master "
-if len(sys.argv) == 2:
+if len(sys.argv) >= 2:
 	message = sys.argv[1]
 
 os.system("git add .")
