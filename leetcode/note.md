@@ -3,10 +3,13 @@
 要么向左，要么向右。
 ## 1.1
 ### 3. 无重复字符的最长子串 高频 medium
+
 ### 32 · 最小子串覆盖
 source = "adobecodebanc"
 target = "abc"
 ans = "banc"
+
+### 406 · 和大于S的最小子数组
 
 # 2.树
 ## 2.1 BST
@@ -120,7 +123,47 @@ dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1]);
 // 如果抢第 i 个，前一个不抢，考虑从前 i - 2 个位置的dp值转移
 dp[i][1] = A[i] + dp[i - 1][0];
 ```
+### 151 · 买卖股票的最佳时机 III
+可以操作两次
+分成两部分
+pre[k] 是 [0,k]
+suf[k] 是 [k, n - 1]
+ans = max(ans, pre[i] + suf[i])
 
+### 125 · 背包问题（二）
+```
+if(w[i] <= j)
+	dp[i + 1][j] = max(dp[i][j], dp[i][j - w[i]] + v[i]);	
+else
+	dp[i + 1][j] = dp[i][j];
+```
+
+### 515 · 房屋染色
+```
+dp[i + 1][0] = costs[i][0] + min(dp[i][1], dp[i][2]);
+dp[i + 1][1] = costs[i][1] + min(dp[i][0], dp[i][2]);
+dp[i + 1][2] = costs[i][2] + min(dp[i][1], dp[i][0]);
+
+return min({dp[n][0], dp[n][1], dp[n][2]});
+```
+
+## 5.3 区间DP
+### 476 · 石子归并
+```
+//题意类似哈夫曼树 不过只有相邻的石子能够合并
+for(int length = 2; length <= n; ++length)
+{
+    for(int start = 0; start + length - 1 < n; ++start)
+    {
+        int end = start + length - 1;
+        for(int splice = start; splice < end; ++splice)
+        {
+            dp[start][end] = min(dp[start][end], dp[start][splice]  + dp[splice + 1][end] +
+                                                    pre_sum[end] - pre_sum[start] + a[start]);
+        }
+    }
+}
+```
 
 # 6.二分查找
 ## 6.1
@@ -169,10 +212,44 @@ swap(arr[left], arr[start]);
 ### 545 · 前K大数 II
 维护一个大小为K  红黑树或者小根堆
 
+### 526 · 负载均衡器
+add() remove() rand_pick()都是O(1)
+一个vector存储数据
+一个unordered_map记录下标 
+删除时与最后一个元素交换 这样remove可以达到O(1)
+
 # 9.深度优先搜索
 ## 9.1
 ### 18 · 子集 II
 ```
 if(i > 0 && nums[i] == nums[i - 1] && !visit[i - 1])
 	continue;
+```
+
+# 10.贪心
+## 10.1
+### 391 · 数飞机 时间区间
+```
+找出重叠最多的时间段
+开始时间，和结束时间都加入arr 再排序
+遇到开始时间+1，结束时间-1 即可
+```
+
+# 11.博弈论
+## 11.1
+### 394 · 硬币排成线
+有 n 个不同价值的硬币排成一条线。两个参赛者轮流从 左边 依次拿走 1 或 2 个硬币，直到没有硬币为止。计算两个人分别拿到的硬币总价值，价值高的人获胜。
+```
+	return (n % 3) != 0;
+```
+
+### 395 · 硬币排成线 II
+有 n 个不同价值的硬币排成一条线。两个参赛者轮流从 左边 依次拿走 1 或 2 个硬币，直到没有硬币为止。计算两个人分别拿到的硬币总价值，价值高的人获胜。
+```
+//从后往前dp，模拟决策过程
+//offensive 表现先手获得的价值
+//dp[i] 表示后手获得的价值
+offensive = max(dp[i + 1] + values[i], dp[i + 2] + values[i] + values[i + 1]);
+sum += values[i];
+dp[i] = sum - offensive;
 ```
