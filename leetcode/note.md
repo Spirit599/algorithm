@@ -165,6 +165,22 @@ for(int length = 2; length <= n; ++length)
 }
 ```
 
+## 5.4 路径DP
+### 1711 · 下降路径最小和
+```
+for(int i = 1; i < m; ++i)
+{
+    for(int j = 0; j < n; ++j)
+    {
+        dp[i][j] = min(dp[i][j], dp[i - 1][j] + a[i][j]);
+        if(j != 0)
+            dp[i][j] = min(dp[i][j], dp[i - 1][j - 1] + a[i][j]);
+        if(j != n - 1)
+            dp[i][j] = min(dp[i][j], dp[i - 1][j + 1] + a[i][j]);
+    }
+}
+```
+
 # 6.二分查找
 ## 6.1
 ### 964 · 食物集合
@@ -253,3 +269,33 @@ offensive = max(dp[i + 1] + values[i], dp[i + 2] + values[i] + values[i + 1]);
 sum += values[i];
 dp[i] = sum - offensive;
 ```
+
+# 12.单调栈
+## 12.1
+### 1852 · 最终优惠价
+```
+for(int i = n - 1; i >= 0; --i)
+{
+    while(!sta.empty() && sta.top() > prices[i])
+    {
+        sta.pop();
+    }
+    int k = prices[i];
+    if(!sta.empty())
+        k = k - sta.top();
+    ans[i] = k;
+    sta.push(prices[i]);
+}
+```
+
+# 13.其他
+## 13.1 前缀和+hash
+### 1844 · 子数组和为K II
+没有负数的话 直接滑动窗口
+有负数 用 前缀和+hash
+
+## 13.2 前缀和+划分+dp
+### 1850 · 捡苹果
+不难 就是麻烦
+一个数组，A需要连续捡m个，B需要连续捡n个。
+两个人捡的不重合，求最大值。
