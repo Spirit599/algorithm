@@ -11,6 +11,54 @@ ans = "banc"
 
 ### 406 · 和大于S的最小子数组
 
+### 1375 · 至少K个不同字符的子串
+```
+while(right < n)
+{
+    if(memo.size() < k)
+    {
+        ++right;
+        ++memo[s[right]];
+    }
+    else
+    {
+        ans += n - right;
+        ++left;
+        if(--memo[s[left]] == 0)
+            memo.erase(s[left]);
+    }
+}
+```
+
+### 992. K 个不同整数的子数组
+```
+//至多K个不同字符的子串
+while(right < n)
+{
+	if(memo.size() <= k)
+	{
+		ans += right - left;
+		++right;
+		if(right < n)
+			++memo[nums[right]];
+	}
+	else
+	{
+		
+		++left;
+		if(--memo[nums[left]] == 0)
+			memo.erase(nums[left]);
+	}
+}
+```
+```
+// 求正好K个
+// 可以转化成 至多K个 - 至多K-1个
+//           至少K个 - 至少K+1个
+return subarraysNoMoreThanK(nums, k) - subarraysNoMoreThanK(nums, k - 1);
+return subarraysNoLessThanK(nums, k) - subarraysNoLessThanK(nums, k + 1);
+```
+
 # 2.树
 ## 2.1 BST
 
@@ -147,6 +195,13 @@ dp[i + 1][2] = costs[i][2] + min(dp[i][1], dp[i][0]);
 return min({dp[n][0], dp[n][1], dp[n][2]});
 ```
 
+### 1147 · 工作安排
+```
+dp[i + 1][0] = max({dp[i][0], dp[i][1], dp[i][2]}) + low[i];
+dp[i + 1][1] = dp[i][2] + high[i];
+dp[i + 1][2] = max({dp[i][0], dp[i][1], dp[i][2]});
+```
+
 ## 5.3 区间DP
 ### 476 · 石子归并
 ```
@@ -181,6 +236,23 @@ for(int i = 1; i < m; ++i)
 }
 ```
 
+### 1827 · 停在原地的方案数2
+```
+for(int i = 1; i <= steps; ++i)
+{
+    for(int j = 0; j < n; ++j)
+    {
+        dp[i][j] = dp[i - 1][j];
+        if(j > 0)
+            dp[i][j] += dp[i - 1][j - 1];
+        if(j < n - 1)
+            dp[i][j] += dp[i - 1][j + 1];
+
+        dp[i][j] %= MOD;
+    }  
+}
+```
+
 # 6.二分查找
 ## 6.1
 ### 964 · 食物集合
@@ -208,6 +280,12 @@ check函数O(n)，判断结果是否合法。
 具体地，前缀和且需要减去ave。
 则pre_sum[i] - minn > 0返回真。
 其中minn = pre_sum[j]  0<=j<=i - k + 1
+
+### 1219 · 加热器
+一堆房子 一堆加热器 最小发热半径
+对加热器排序 二分查找每个房子 取房子旁边两个加热器的最小值
+最后取满足每个房子的最大值。
+
 
 # 7.排序相关
 ## 7.1
@@ -299,3 +377,39 @@ for(int i = n - 1; i >= 0; --i)
 不难 就是麻烦
 一个数组，A需要连续捡m个，B需要连续捡n个。
 两个人捡的不重合，求最大值。
+
+# 14.宽度优先搜索
+## 14.1
+### 1832 · 最小步数
+从第一格移动到最后一格所需要的步数。
+1. i + 1 
+2. i - 1
+3. 颜色相同。
+注意记录同种颜色的vector只遍历一遍。  
+
+### 1565 · 飞行棋 I
+从第一格移动到最后一格所需要的步数。
+1. 前进 1，2，3，4，5，6 步 代价 + 1
+2. 直接跳跃                           没有代价
+
+外部bfs
+内部bfs或者dfs
+
+# 15.TRICK
+## 15.1
+### 1310 · 数组除了自身的乘积
+不使用除法，O(n), 你可以用常数空间复杂度来解决这个问题吗？（注意：出于空间复杂度分析的目的，输出数组不算作额外空间。
+```
+int cur = 1;
+for(int i = 1; i < n; ++i)
+{
+    cur *= nums[i - 1];
+    arr[i] = cur;
+}
+cur = 1;
+for(int i = n - 2; i >= 0; --i)
+{
+    cur *= nums[i + 1];
+    arr[i] = arr[i] * cur;
+}
+```
