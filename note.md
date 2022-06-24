@@ -77,6 +77,24 @@ int singlePathSum(TreeNode* root)
 	return max(left, right) + root->val;
 }
 ```
+### 651 · 二叉树垂直遍历
+先把right 和 left 找出来
+```
+vector<vector<int>> ans(right + left + 1);
+queue<pair<TreeNode*, int>> que;
+que.push(make_pair(root, left));
+while(!que.empty())
+{
+    pair<TreeNode*, int> cur = que.front();
+    que.pop();
+    ans[cur.second].push_back(cur.first->val);
+    if(cur.first->left)
+        que.push(make_pair(cur.first->left, cur.second - 1));
+    if(cur.first->right)
+        que.push(make_pair(cur.first->right, cur.second + 1));
+
+}
+```
 # 3.分治
 ## 3.1
 ### 1261 · 字符至少出现K次的最长子串 lintcode
@@ -201,6 +219,19 @@ dp[i + 1][0] = max({dp[i][0], dp[i][1], dp[i][2]}) + low[i];
 dp[i + 1][1] = dp[i][2] + high[i];
 dp[i + 1][2] = max({dp[i][0], dp[i][1], dp[i][2]});
 ```
+### 512 · 解码方法
+```
+for(int i = 2; i < n; ++i)
+{
+    int num1 = s[i] - '0';
+    int num2 = (s[i - 1] - '0') * 10 + s[i] - '0';
+    dp[i] = 0;
+    if(num1 >= 1 && num1 <= 9)
+        dp[i] += dp[i - 1];
+    if(num2 >= 10 && num2 <= 26)
+        dp[i] += dp[i - 2];
+}
+```
 
 ## 5.3 区间DP
 ### 476 · 石子归并
@@ -319,6 +350,18 @@ add() remove() rand_pick()都是O(1)
 if(i > 0 && nums[i] == nums[i - 1] && !visit[i - 1])
 	continue;
 ```
+### 因数分解
+```
+for(int i = bigger_factor; i <= max_factor; ++i)
+{
+    if(n % i == 0)
+    {
+        ret.push_back(i);
+        dfs(ans, ret, i, n / i);
+        ret.pop_back();
+    }
+}
+```
 
 # 10.贪心
 ## 10.1
@@ -412,4 +455,14 @@ for(int i = n - 2; i >= 0; --i)
     cur *= nums[i + 1];
     arr[i] = arr[i] * cur;
 }
+```
+
+# 16.图相关
+## 16.1
+### 178 · 图是否是树
+```
+int edges_num = edges.size();
+if(edges_num != n - 1)
+	return false;
+return check_connected(n, edges);
 ```
