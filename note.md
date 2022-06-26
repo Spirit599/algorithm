@@ -267,6 +267,28 @@ for(int i = 1; i < m; ++i)
 }
 ```
 
+## 状态压缩DP
+### 1891 · 旅行计划
+```
+dp[0][1] = 0;
+for(int S = 1; S < S_size; ++S)
+{
+    for(int i = 0; i < n; ++i)
+    {
+        if(S & (1 << i))
+        {
+            for (int j = 0; j < n; ++j)
+            {
+                if(!(S & (1 << j)))
+                {
+                    dp[j][S | (1 << j)] = min(dp[j][S | (1 << j)], dp[i][S] + arr[i][j]);
+                }
+            }
+        }
+    }
+}
+```
+
 ### 1827 · 停在原地的方案数2
 ```
 for(int i = 1; i <= steps; ++i)
