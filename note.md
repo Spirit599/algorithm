@@ -98,11 +98,25 @@ while(!que.empty())
 # 3.分治
 ## 3.1
 ### 1261 · 字符至少出现K次的最长子串 lintcode
+## 3.2 归并排序模板
+### 剑指 Offer 51. 数组中的逆序对
 
 # 4.链表
 ## 4.1 单链表
 ### 102 · 带环链表
 快慢指针是否相遇
+
+### 23. 合并K个升序链表
+```
+ListNode* merge(vector<ListNode*>& lists, int left, int right)
+{
+    if(left == right)
+        return lists[left];
+    int mid = (right - left) / 2 + left;
+
+    return mergeTwoLists(merge(lists, left, mid), merge(lists, mid + 1, right));
+}
+```
 ## 4.2 循环链表
 ### offer2·29 · 排序的循环链表插入
 ```
@@ -179,6 +193,26 @@ for(int k = 0; k <= j; ++k)
 	}
 }
 ```
+
+### 984 · 等差切片 II - 子序列
+```
+for(int i = 0; i < n; ++i)
+{
+    for(int j = 0; j < i; ++j)
+    {
+        long long diff = 1ll * a[i] - a[j];
+        auto it = dp[j].find(diff);
+        int cnt = 0;
+        if(it == dp[j].end())
+            cnt = 0;
+        else
+            cnt = dp[j][diff];
+
+        ans += cnt;
+        dp[i][diff] += cnt + 1;
+    }
+}
+```
 ## 5.3 一般动态规划
 ### 392 · 打劫房屋
 ```
@@ -233,6 +267,55 @@ for(int i = 2; i < n; ++i)
 }
 ```
 
+### 32. 最长有效括号
+```
+for(int i = 1; i < n; ++i)
+{
+	if(s[i] == ')')
+	{
+		if(s[i - 1] == '(')
+		{
+			dp[i + 1] = dp[i - 1] + 2;
+		}
+		else if(s[i - 1] == ')')
+		{
+			if(i - dp[i] - 1 >= 0 && s[i - dp[i] - 1] == '(')
+			{
+				dp[i + 1] = dp[i] + dp[i - dp[i] - 1] + 2;
+			}
+			
+		}
+	}
+	ans = max(ans, dp[i + 1]);
+}
+```
+
+### 629. K个逆序对数组
+```
+if(j < i)
+    dp[i][j] = pre[i - 1][j];
+else
+    dp[i][j] = (pre[i - 1][j] - pre[i - 1][j - i] + MOD) % MOD;
+if(j != 0)
+    pre[i][j] = (pre[i][j - 1] + dp[i][j]) % MOD;
+else
+    pre[i][j] = dp[i][j];
+```
+
+### 1251 · 拆分子数组
+```
+dp[0][0] = 0;
+for(int i = 1; i <= n; ++i)
+{
+	for(int j = 1; j <= min(i, m); ++j)
+	{
+		for(int k = 0; k < i; ++k)
+		{
+			dp[i][j] = min(dp[i][j] ,max(dp[k][j - 1], pre[i] - pre[k]));;
+		}
+	}
+}
+```
 ## 5.3 区间DP
 ### 476 · 石子归并
 ```
@@ -306,6 +389,40 @@ for(int i = 1; i <= steps; ++i)
 }
 ```
 
+## 字符串DP
+### 10. 正则表达式匹配
+```
+dp[0][0] = true;
+for(int j = 0; j < n; ++j)
+    if(j >= 1 && p[j] == '*')
+        dp[0][j + 1] = dp[0][j - 1];
+
+for(int i = 0; i < m; ++i)
+{
+    for(int j = 0; j < n; ++j)
+    {
+        if(s[i] == p[j] || p[j] == '.')
+        {
+            dp[i + 1][j + 1] = dp[i][j];
+        }
+        else if(p[j] == '*')
+        {
+            bool flag;
+            if(j > 0 && (p[j - 1] == s[i] || p[j - 1] == '.'))
+                flag = dp[i][j + 1];
+            else
+                flag = false;
+            dp[i + 1][j + 1] = flag || dp[i + 1][j - 1]; //|| dp[i + 1][j];
+        }
+        else
+        {
+            dp[i + 1][j + 1] = false;
+        }
+        cout<<i + 1<<" "<<j + 1<<" "<<dp[i + 1][j + 1]<<endl;
+    }
+}
+```
+
 # 6.二分查找
 ## 6.1
 ### 964 · 食物集合
@@ -339,6 +456,54 @@ check函数O(n)，判断结果是否合法。
 对加热器排序 二分查找每个房子 取房子旁边两个加热器的最小值
 最后取满足每个房子的最大值。
 
+### 4. 寻找两个正序数组的中位数
+```
+while(1)
+{
+    if(index1 == m)
+        return nums2[index2 + k - 1];
+    if(index2 == n)
+        return nums1[index1 + k - 1];
+    if(k == 1)
+        return min(nums1[index1], nums2[index2]);
+
+    int new_index1 = min(index1 + k / 2 - 1, m - 1);
+    int new_index2 = min(index2 + k / 2 - 1, n - 1);
+    if(nums1[new_index1] < nums2[new_index2])
+    {
+        k -= new_index1 - index1 + 1;
+        index1 = new_index1 + 1;
+    }
+    else
+    {
+        k -= new_index2 - index2 + 1;
+        index2 = new_index2 + 1;
+    }
+}
+```
+
+### 1251 · 拆分子数组
+给定一个由非负整数组成的数组和一个整数 m，我们要把数组拆分为 m 个非空连续子数组，使得这 m 个数组和的最大值在所有拆分方案中最小。
+```
+bool check(vector<int>& nums, int m, long long mid)
+{
+	int cnt = 1;
+	long long sum = 0;
+
+	for(int num : nums)
+	{
+		sum += num;
+		if(sum > mid)
+		{
+			++cnt;
+			if(cnt > m)
+				return false;
+			sum = num;
+		}
+	}
+	return true;
+}
+```
 
 # 7.排序相关
 ## 7.1
@@ -354,6 +519,9 @@ while(left < right)
 }
 swap(arr[left], arr[start]);
 ```
+
+
+
 # 8.设计题
 ## 8.1
 ### 545 · 前K大数 II
@@ -364,6 +532,10 @@ add() remove() rand_pick()都是O(1)
 一个vector存储数据
 一个unordered_map记录下标 
 删除时与最后一个元素交换 这样remove可以达到O(1)
+
+### 134 · LRU缓存策略
+
+
 
 # 9.深度优先搜索
 ## 9.1
@@ -413,8 +585,8 @@ sum += values[i];
 dp[i] = sum - offensive;
 ```
 
-# 12.单调栈
-## 12.1
+# 12.栈
+## 12.1单调栈
 ### 1852 · 最终优惠价
 ```
 for(int i = n - 1; i >= 0; --i)
@@ -431,6 +603,27 @@ for(int i = n - 1; i >= 0; --i)
 }
 ```
 
+## 普通栈
+### 32. 最长有效括号
+```
+sta.push(-1);
+for(int i = 0; i < n; ++i)
+{
+    if(s[i] == ')')
+    {
+        sta.pop();
+        if(sta.empty())
+            sta.push(i);
+        else
+            ans = max(ans, i - sta.top());
+    }
+    else // s[i] == '('
+    {
+        sta.push(i);
+    }
+}
+```
+
 # 13.其他
 ## 13.1 前缀和+hash
 ### 1844 · 子数组和为K II
@@ -443,8 +636,22 @@ for(int i = n - 1; i >= 0; --i)
 一个数组，A需要连续捡m个，B需要连续捡n个。
 两个人捡的不重合，求最大值。
 
-## 线段树
+## 13.3 线段树
 ### 840 · 可变范围求和
+
+### 315. 计算右侧小于当前元素的个数
+先离散化ranked，再上线段树
+
+## 13.4 差分数组
+### 2381. 字母移位 II
+```
+for(auto& shift : shifts)
+{
+    int add = 2 * shift[2] - 1;
+    diff[shift[0]] += add;
+    diff[shift[1] + 1] -= add;
+}
+```
 
 # 14.宽度优先搜索
 ## 14.1
@@ -479,6 +686,17 @@ for(int i = n - 2; i >= 0; --i)
 {
     cur *= nums[i + 1];
     arr[i] = arr[i] * cur;
+}
+```
+
+### 2380. 二进制字符串重新安排顺序需要的时间
+```
+for(int i = 0; i < slen; ++i)
+{
+    if(s[i] == '0')
+        ++cnt0;
+    else if(cnt0 > 0)
+        ans = max(ans + 1, cnt0);
 }
 ```
 
