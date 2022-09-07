@@ -223,12 +223,57 @@ dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1]);
 // 如果抢第 i 个，前一个不抢，考虑从前 i - 2 个位置的dp值转移
 dp[i][1] = A[i] + dp[i - 1][0];
 ```
+
+### 309. 最佳买卖股票时机含冷冻期
+```
+dp[0][0] = -prices[0];
+for(int i = 1; i < n; ++i)
+{
+    dp[i][0] = max(dp[i - 1][0], dp[i - 1][1] - prices[i]);
+    dp[i][1] = max(dp[i - 1][1], dp[i - 1][2]);
+    dp[i][2] = dp[i - 1][0] + prices[i];
+}
+```
+
 ### 151 · 买卖股票的最佳时机 III
-可以操作两次
+1.状态转移
+```
+int b1 = -prices[0];
+int b2 = -prices[0];
+int s1 = 0;
+int s2 = 0;
+
+
+for(int i = 1; i < n; ++i)
+{
+	b1 = max(b1, -prices[i]);
+	s1 = max(s1, b1 + prices[i]);
+	b2 = max(b2, s1 - prices[i]);
+	s2 = max(s2, b2 + prices[i]);
+}
+```
+2.可以操作两次
 分成两部分
 pre[k] 是 [0,k]
 suf[k] 是 [k, n - 1]
 ans = max(ans, pre[i] + suf[i])
+
+### 188. 买卖股票的最佳时机 IV
+```
+for(int i = 0; i < k; ++i)
+	buy[i] = -prices[0];
+
+for(int i = 1; i < n; ++i)
+{
+	buy[0] = max(buy[0], -prices[i]);
+	sell[0] = max(sell[0], buy[0] + prices[i]);
+	for(int j = 1; j < k; ++j)
+	{
+		buy[j] = max(buy[j], sell[j - 1] - prices[i]);
+		sell[j] = max(sell[j], buy[j] + prices[i]);
+	}
+}
+```
 
 ### 125 · 背包问题（二）
 ```
@@ -316,6 +361,20 @@ for(int i = 1; i <= n; ++i)
 	}
 }
 ```
+
+### 322. 零钱兑换
+```
+for(int i = 1; i <= amount; ++i)
+{
+	for(int coin : coins)
+	{
+		if(i - coin >= 0)
+		{
+			dp[i] = min(dp[i], dp[i - coin] + 1);
+		}
+	}
+}
+```
 ## 5.3 区间DP
 ### 476 · 石子归并
 ```
@@ -329,6 +388,22 @@ for(int length = 2; length <= n; ++length)
         {
             dp[start][end] = min(dp[start][end], dp[start][splice]  + dp[splice + 1][end] +
                                                     pre_sum[end] - pre_sum[start] + a[start]);
+        }
+    }
+}
+```
+
+### 312. 戳气球
+```
+for(int length = 1; length <= n; ++length)
+{
+    for(int start = 1; start + length - 1 <= n; ++start)
+    {
+        int end = start + length - 1;
+        for(int split = start; split <= end; ++split)
+        {
+            int sum = nums[split] * nums[start - 1] * nums[end + 1];
+            dp[start][end] = max(dp[start][end], sum + dp[start][split - 1] + dp[split + 1][end]);
         }
     }
 }

@@ -1,5 +1,4 @@
 // 23. 合并K个升序链表
-
 /**
  * Definition for singly-linked list.
  * struct ListNode {
