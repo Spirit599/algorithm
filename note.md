@@ -517,6 +517,7 @@ for(int i = 0; i < m; ++i)
 1，2，5
 1，1，5
 1，1，5，6
+找到第一个大于等于num的数
 
 ### 617 · 子数组的最大平均值 II
 大于等于K的子数组中最大平均值
@@ -772,6 +773,27 @@ for(int i = 0; i < slen; ++i)
         ++cnt0;
     else if(cnt0 > 0)
         ans = max(ans + 1, cnt0);
+}
+```
+
+### 287. 寻找重复数
+```
+int slow = 0;
+int fast = 0;
+
+while(1){
+    slow = nums[slow];
+    fast = nums[nums[fast]];
+    if(slow == fast)
+        break;
+}
+
+slow = 0;
+while(1) {
+    slow = nums[slow];
+    fast = nums[fast];
+    if(slow == fast)
+        return fast;
 }
 ```
 
