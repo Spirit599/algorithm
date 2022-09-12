@@ -497,6 +497,23 @@ for(int i = 0; i < m; ++i)
     }
 }
 ```
+### 139.单词拆分
+先逆序word
+```
+for(int i = 1; i <= n; ++i)
+{
+    string cur;
+    for(int j = i - 1; j >= 0; --j)
+    {
+        cur.push_back(s[j]);
+        if(dp[j] && memo.count(cur))
+        {
+            dp[i] = true;
+            break;
+        }
+    }
+}
+```
 
 # 6.二分查找
 ## 6.1
@@ -642,6 +659,17 @@ for(int i = bigger_factor; i <= max_factor; ++i)
 遇到开始时间+1，结束时间-1 即可
 ```
 
+### 406. 根据身高重建队列
+```
+//身高递减 名次递增
+sort(people.begin(), people.end(), cmp);
+
+vector<vector<int>> ans;
+for(auto& v : people)
+{
+	ans.insert(ans.begin() + v[1], std::move(v));
+}
+```
 # 11.博弈论
 ## 11.1
 ### 394 · 硬币排成线
@@ -699,7 +727,36 @@ for(int i = 0; i < n; ++i)
     }
 }
 ```
-
+### 394. 字符串解码
+```
+for(char c : str)
+{
+    if(isalpha(c))
+        tmp.push_back(c);
+    else if(isdigit(c))
+        num = 10 * num + c - '0';
+    else if(c == '[')
+    {
+        if(num == 0)
+            num = 1;
+        staInt.push(num);
+        staString.push(tmp);
+        num = 0;
+        tmp = "";
+    }
+    else
+    {
+        int num = staInt.top();
+        staInt.pop();
+        string pre = staString.top();
+        staString.pop();
+        string kk;
+        while(num--)
+            kk += tmp;
+        tmp = pre + kk;
+    }
+}
+```
 # 13.其他
 ## 13.1 前缀和+hash
 ### 1844 · 子数组和为K II
