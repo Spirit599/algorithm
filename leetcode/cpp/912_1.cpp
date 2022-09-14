@@ -23,7 +23,7 @@ public:
         {
             while(left < right && nums[right] >= nums[start])
                 --right;
-            while(left < right && nums[left] <= nums[start])
+            while(left < right && nums[left] < nums[start])
                 ++left;
             swap(nums[left], nums[right]);
         }

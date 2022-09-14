@@ -98,6 +98,41 @@ while(!que.empty())
 # 3.分治
 ## 3.1
 ### 1261 · 字符至少出现K次的最长子串 lintcode
+
+### 53. 最大子数组和
+```
+kindOfSum get(vector<int>& nums, int left, int right)
+{
+    if(left == right)
+        return {nums[left], nums[left], nums[left], nums[left]};
+
+    int split = (left + right) >> 1;
+    kindOfSum lsum = get(nums, left, split);
+    kindOfSum rsum = get(nums, split + 1, right);
+
+    return accumulate(lsum, rsum);
+}
+kindOfSum accumulate(kindOfSum lsum, kindOfSum rsum)
+{
+    return { lsum.allSum + rsum.allSum,
+            max(lsum.leftSum, lsum.allSum + rsum.leftSum),
+            max(rsum.rightSum, rsum.allSum + lsum.rightSum),
+            max({lsum.conSum, rsum.conSum, lsum.rightSum + rsum.leftSum})
+    };
+}
+```
+### 23. 合并K个升序链表
+```
+ListNode* merge(vector<ListNode*>& lists, int left, int right)
+{
+    if(left == right)
+        return lists[left];
+    int mid = (right - left) / 2 + left;
+
+    return mergeTwoLists(merge(lists, left, mid), merge(lists, mid + 1, right));
+}
+```
+
 ## 3.2 归并排序模板
 ### 剑指 Offer 51. 数组中的逆序对
 
