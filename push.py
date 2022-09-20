@@ -2,6 +2,7 @@ import os
 import sys
 import time
 
+os.system("find . -name '*.exe' | xargs rm -vr")
 
 message = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 message = " \"" + message + "\" "
