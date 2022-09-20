@@ -482,6 +482,31 @@ for(int S = 1; S < S_size; ++S)
 }
 ```
 
+### 698. 划分为k个相等的子集
+```
+dp[0] = true;
+for(int i = 0; i < (1 << n); ++i)
+{
+    if(dp[i] == false)
+        continue;
+
+    for(int j = 0; j < n; ++j)
+    {
+        if(sum[i] + nums[j] > part)
+            break;
+        if(((i >> j) & 1) == 0)
+        {
+            int next = i | (1 << j);
+            if(!dp[next])
+            {
+                sum[next] = (sum[i] + nums[j]) % part;
+                dp[next] = true;
+            }
+        }
+    }
+}
+```
+
 ### 1827 · 停在原地的方案数2
 ```
 for(int i = 1; i <= steps; ++i)
