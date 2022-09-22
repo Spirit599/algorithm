@@ -77,6 +77,22 @@ int singlePathSum(TreeNode* root)
 	return max(left, right) + root->val;
 }
 ```
+### 2415. 反转二叉树的奇数层
+```
+TreeNode* helper(TreeNode* pleft, TreeNode* pright, int depth) 
+{
+    if(!pleft)
+        return nullptr;
+    if(!(depth & 1))
+    {
+        swap(pleft->val, pright->val);
+    }
+    helper(pleft->left, pright->right, depth + 1);
+    helper(pleft->right, pright->left, depth + 1);
+
+    return root;
+}
+```
 ### 651 · 二叉树垂直遍历
 先把right 和 left 找出来
 ```
@@ -730,6 +746,36 @@ for(auto& v : people)
 	ans.insert(ans.begin() + v[1], std::move(v));
 }
 ```
+### 2412. 完成所有交易的初始最少钱数
+分成两种情况
+赚完钱的第一笔 要cost 之前亏了total  最大容量 cost + total  (cost <= cashback)
+亏钱的最后一笔 要cost 之前亏了 total - cost + cashback 最大容量 cashback + total (cost > cashback)
+```
+for(int i = 0; i < n; ++i) {
+
+    total += max(transactions[i][0] - transactions[i][1], 0);
+    maxx = max(maxx, min(transactions[i][0], transactions[i][1]));
+}
+```
+
+### 1665. 完成所有任务的最少初始能量
+这里都是亏钱的 按照返还额度最大排序
+```
+sort(tasks.begin(), tasks.end(), [&](const vector<int>& v1, const vector<int>& v2) {
+    return v2[1] - v2[0] > v1[1] - v1[0];
+});
+```
+
+### 2366. 将数组排序的最少替换次数
+从后往前切，每次切要保证切完的最小值最大化
+```
+for(int i = n - 2; i >= 0; --i) {
+    int cnt = (nums[i] - 1) / k;
+    ans += cnt;
+    k = nums[i] / (cnt + 1);
+}
+```
+
 # 11.博弈论
 ## 11.1
 ### 394 · 硬币排成线
