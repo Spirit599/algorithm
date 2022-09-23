@@ -674,6 +674,20 @@ bool check(vector<int>& nums, int m, long long mid)
 }
 ```
 
+### // 378. 有序矩阵中第 K 小的元素
+对于任意一个数num，可以在On时间找到它的位次 从左下角开始找
+```
+while(i >= 0)
+{
+    while(j < n && matrix[i][j] <= mid)
+        ++j;
+    cnt += j;
+    if(cnt >= k)
+        return true;
+    --i;
+}
+```
+
 # 7.排序相关
 ## 7.1
 ### 544 · 前K大数
@@ -773,6 +787,23 @@ for(int i = n - 2; i >= 0; --i) {
     int cnt = (nums[i] - 1) / k;
     ans += cnt;
     k = nums[i] / (cnt + 1);
+}
+```
+
+### 334. 递增的三元子序列
+```
+int n1 = nums[0];
+int n2 = INT_MAX;
+
+for(int i = 1; i < n; ++i)
+{
+    int num = nums[i];
+    if(num > n2)
+        return true;
+    else if(num > n1)
+        n2 = num;
+    else
+        n1 = num;
 }
 ```
 
