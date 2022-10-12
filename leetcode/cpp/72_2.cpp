@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int minDistance(string word1, string word2) {
+
+        int m = word1.size();
+        int n = word2.size();
+        int dp[m + 1][n + 1];
+        memset(dp, 0x3f, sizeof(dp));
+        dp[0][0] = 0;
+        for(int i = 0; i < m; ++i)
+        {
+            dp[i + 1][0] = i + 1;
+        }
+        for(int j = 0; j < n; ++j)
+        {
+            dp[0][j + 1] = j + 1;
+        }
+
+        for(int i = 0; i < m; ++i)
+        {
+            for(int j = 0; j < n; ++j)
+            {
+                printf("%d %d\n", i,j);
+                if(word1[i] == word2[j])
+                    dp[i + 1][j + 1] = dp[i][j];
+                else
+                    dp[i + 1][j + 1] = min({dp[i][j], dp[i][j + 1], dp[i + 1][j]}) + 1;
+            }
+        }
+
+        return dp[m][n];
+    }
+};

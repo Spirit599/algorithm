@@ -426,6 +426,66 @@ for(int i = 1; i <= amount; ++i)
 	}
 }
 ```
+### 377. 组合总和 Ⅳ
+```
+for(int i = 0; i <= target; ++i)
+{
+    for(int j = 0; j < n; ++j)
+    {
+        if(i + nums[j] <= target && dp[i + nums[j]] + dp[i] < INT_MAX)
+            dp[i + nums[j]] += dp[i];
+    }
+}
+```
+### 2430. 对字母串可执行的最大删除数
+```
+for(int i = n - 1; i >= 0; --i)
+{
+    for(int j = n - 1; j > i; --j)
+    {
+        if(s[i] == s[j])
+            lcp[i][j] = lcp[i + 1][j + 1] + 1;
+    }
+}
+int dp[n];
+memset(dp, 0, sizeof(dp));
+dp[n - 1] = 1;
+
+for(int i = n - 2; i >= 0; --i)
+{
+    dp[i] = 1;
+    for(int length = 1; length <= n / 2; ++length)
+    {
+        if(i + 2 * length > n)
+            break;
+        // if(s.substr(i, length) == s.substr(i + length, length))
+        //     dp[i] = max(dp[i], dp[i + length] + 1);
+        if(lcp[i][i + length] >= length)
+            dp[i] = max(dp[i], dp[i + length] + 1);
+	}
+}
+```
+
+### 801. 使序列递增的最小交换次数
+```
+for(int i = 1; i < n; ++i)
+{
+    int na = INT_MAX;
+    int nb = INT_MAX;
+    if(nums1[i] > nums1[i - 1] && nums2[i] > nums2[i - 1])
+    {
+        na = min(na, a);
+        nb = min(nb, b + 1);
+    }
+    if(nums1[i] > nums2[i - 1] && nums2[i] > nums1[i - 1])
+    {
+        na = min(na, b);
+        nb = min(nb, a + 1);
+    }
+    a = na;
+    b = nb;
+}
+```
 ## 5.3 区间DP
 ### 476 · 石子归并
 ```
@@ -804,6 +864,23 @@ for(int i = 1; i < n; ++i)
         n2 = num;
     else
         n1 = num;
+}
+```
+
+### 2434. 使用机器人打印字典序最小的字符串
+```
+for(char c : s)
+{
+    --cnt[c - 'a'];
+    int minn = 0;
+    while(minn < 25 && cnt[minn] == 0)
+        ++minn;
+    sta.push(c);
+    while(!sta.empty() && sta.top() - 'a' <= minn)
+    {
+        ans.push_back(sta.top());
+        sta.pop();
+    }
 }
 ```
 
