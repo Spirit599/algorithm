@@ -11,6 +11,7 @@ bool cmp(const vector<int>& v1, const vector<int>& v2)
 class Solution {
 public:
 	int* segMentTree;
+	int 
 	void build_tree(int treeIndex, int left, int right) {
 
 		if(left == right)

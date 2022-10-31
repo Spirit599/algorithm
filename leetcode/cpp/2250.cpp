@@ -31,7 +31,6 @@ public:
         int ret = query(leftIndex, left, mid, queryLeft, queryRight);
         ret += query(rightIndex, mid + 1, right, queryLeft, queryRight);
         return ret;
-
     }
     vector<int> countRectangles(vector<vector<int>>& rectangles, vector<vector<int>>& points) {
         
