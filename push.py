@@ -16,3 +16,5 @@ os.system("git add .")
 os.system("git status")
 os.system("git commit -m" + message)
 os.system("git push" + repository + branch)
+
+os.system('pause')
