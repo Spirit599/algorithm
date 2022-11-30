@@ -27,7 +27,7 @@ public:
             if(len == 0)
                 return true;
             ull leftHashCode = preHash[left + 1] - preHash[left - len + 1] * power[len];
-            ull rightHashCode= sufHash[right] - sufHash[right + len] * power[len];
+            ull rightHashCode = sufHash[right] - sufHash[right + len] * power[len];
             if(leftHashCode == rightHashCode)
                 return true;
             else
