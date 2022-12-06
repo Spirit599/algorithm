@@ -3,7 +3,7 @@ public:
     bool checkPartitioning(string s) {
 
         int n = s.size();
-        bool isPali[n - 1][n - 1];
+        bool isPali[n][n];
         memset(isPali, 0, sizeof(isPali));
         for(int i = 0; i < n; ++i)
         {
