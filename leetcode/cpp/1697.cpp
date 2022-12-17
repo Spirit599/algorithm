@@ -48,3 +48,31 @@ public:
         return findFa(x) == findFa(y);
     }
 };
+
+class Solution {
+public:
+    vector<bool> distanceLimitedPathsExist(int n, vector<vector<int>>& edgeList, vector<vector<int>>& queries) {
+
+        sort(edgeList.begin(), edgeList.end(), [](vector<int>& v1, vector<int>& v2) {return v1[2] < v2[2];});
+        int querySize = queries.size();
+        for(int i = 0; i < querySize; ++i)
+            queries[i].emplace_back(i);
+        sort(queries.begin(), queries.end(), [](vector<int>& v1, vector<int>& v2) {return v1[2] < v2[2];});
+        int i = 0;
+        int edgeSize = edgeList.size();
+        unionFind uf(n);
+        vector<bool> ans(querySize);
+
+        for(vector<int>& query : queries)
+        {
+            while(i < edgeSize && edgeList[i][2] < query[2])
+            {
+                uf.unionNode(edgeList[i][0], edgeList[i][1]);
+                ++i;
+            }
+            ans[query[3]] = uf.isConnection(query[0], query[1]);
+        }
+
+        return ans;
+    }
+};
