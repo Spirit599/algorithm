@@ -3,8 +3,8 @@ public:
     int minimumIncompatibility(vector<int>& nums, int k) {
 
         int n = nums.size();
-        // if(n == k)
-        //     return 0;
+        if(n == k)
+            return 0;
         int batch = n / k;
         bool vis[n + 1];
         memset(vis, 0, sizeof(vis));
