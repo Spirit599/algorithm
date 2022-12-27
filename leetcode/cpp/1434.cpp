@@ -25,17 +25,14 @@ public:
             memcpy(dp[i], dp[i - 1], sizeof(dp[i]));
             for(int p : hatsToPerson[i])
             {
-                // printf("%d\n", p);
                 for(int mask = 0; mask < S; ++mask)
                 {
                     if((mask & (1 << p)) == 0)
                     {
                         dp[i][mask | (1 << p)] = (dp[i][mask | (1 << p)] + dp[i - 1][mask]) % mod;
-                        // printf("%d %d\n", mask | (1 << p), dp[mask | (1 << p)]);
                     }
                 }
             }
-            // printf("\n");
         }
 
         return dp[hatSize][S - 1];
