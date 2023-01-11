@@ -63,7 +63,7 @@ int main(int argc, char const *argv[])
     srand((unsigned)time(NULL));
     vector<int> nums;
     for(int i = 0; i <= 11; ++i)
-        nums.emplace_back(rand() % 100);
+        nums.emplace_back(i);
     for(int num : nums)
         cout<<num<<' ';
     cout<<endl;

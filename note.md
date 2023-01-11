@@ -365,6 +365,10 @@ add() remove() rand_pick()都是O(1)
 一个unordered_map记录下标 
 删除时与最后一个元素交换 这样remove可以达到O(1)
 
+### 2349. 设计数字容器系统
+unordered_map<int, int> index_to_num;
+unordered_map<int, set<int>> num_to_index;
+
 # 9.深度优先搜索
 ## 9.1
 ### 18 · 子集 II

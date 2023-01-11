@@ -6,7 +6,7 @@ import time
 message = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 message = " \"" + message + "\" "
 
-repository = " algorithm_ssh "
+repository = " git@github.com:Spirit599/algorithm.git "
 branch = " master "
 if len(sys.argv) >= 2:
 	message = sys.argv[1]
