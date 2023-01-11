@@ -1,51 +1,36 @@
-// 2337. 移动片段得到字符串
-// 双指针
-
 class Solution {
 public:
-    bool canChange(string start, string target) {
+    const int MOD = 1000000007;
+    int peopleAwareOfSecret(int n, int delay, int forget) {
         
-        int n = start.size();
-        int i = 0;
-        int j = 0;
+        int dp[n + 1][3];
+        memset(dp, 0, sizeof(dp));
 
-        
-        while(i < n)
+        dp[1][0] = 1;
+        if(1 + delay <= n)
+            dp[1 + delay][1] = 1;
+        if(1 + forget <= n)
+            dp[1 + forget][2] = 1;
+
+        for(int i = 2; i <= n; ++i)
         {
-        	if(start[i] == 'L')
-        	{
-        		while(j < n && target[j] != 'L')
-        		{
-        			if(target[j] == 'R')
-        				return false;
-        			++j;
-        		}
-        		if(j == n || i < j)
-        			return false;
-        		++j;
-        	}
-        	else if(start[i] == 'R')
-        	{
-        		while(j < n && target[j] != 'R')
-        		{
-        			if(target[j] == 'L')
-        				return false;
-        			++j;
-        		}
-        		if(j == n || i > j)
-        			return false;
-        		++j;
-        	}
-        	++i;
+            dp[i][0] = dp[i - 1][0];
+            dp[i][1] = (dp[i][1] + dp[i - 1][1]) % MOD;
+
+            dp[i][0] = (dp[i][0] - dp[i][2] + MOD) % MOD;
+            dp[i][1] = (dp[i][1] - dp[i][2] + MOD) % MOD;
+
+            dp[i][0] = (dp[i][0] + dp[i][1]) % MOD;
+
+            if(i + delay <= n)
+                dp[i + delay][1] = (dp[i + delay][1] + dp[i][1]) % MOD;
+            if(i + forget <= n)
+                dp[i + forget][2] = (dp[i + forget][2] + dp[i][1]) % MOD;
+
+            //printf("%d %d %d\n", dp[i][0],dp[i][1],dp[i][2]);
+
         }
 
-        while(j < n)
-        {
-        	if(target[j] != '_')
-        		return false;
-        	++j;
-        }
-
-        return true;
+        return dp[n][0];
     }
 };

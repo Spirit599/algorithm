@@ -2,6 +2,7 @@ import os
 import sys
 import time
 
+os.system("find . -name '*.exe' | xargs rm -vr")
 
 message = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
 message = " \"" + message + "\" "
@@ -15,3 +16,5 @@ os.system("git add .")
 os.system("git status")
 os.system("git commit -m" + message)
 os.system("git push" + repository + branch)
+
+os.system('pause')
