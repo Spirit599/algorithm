@@ -2,7 +2,6 @@ class unionFind {
 private:
     vector<int> fa;
     vector<int> height;
-    vector<int> unionSize;
     int n;
 public:
     unionFind(int n)
@@ -10,7 +9,6 @@ public:
         this->n = n;
         fa.resize(n, -1);
         height.resize(n, 0);
-        unionSize.resize(n, 0);
     }
 
     int findFa(int x)
@@ -30,18 +28,15 @@ public:
         if(height[fx] < height[fy])
         {
             fa[fx] = fy;
-            unionSize[fy] += unionSize[fx];
         }
         else if(height[fx] > height[fy])
         {
             fa[fy] = fx;
-            unionSize[fx] += unionSize[fy];
         }
         else
         {
             fa[fx] = fy;
             ++height[fy];
-            unionSize[fy] += unionSize[fx];
         }
     }
 
@@ -52,7 +47,7 @@ public:
 
     int islandNum()
     {
-        int ret = 0;
+        int ret = 0; 
         for(int i = 0; i < n; ++i)
         {
             if(fa[i] == -1)
