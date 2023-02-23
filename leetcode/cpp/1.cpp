@@ -1,39 +1,30 @@
+typedef pair<int, int> pii;
+
 class Solution {
 public:
-    vector<int> findEvenNumbers(vector<int>& digits) {
-       
-       set<int> ans;
-       for (int i = 0; i < digits.size(); ++i)
+    vector<int> twoSum(vector<int>& nums, int target) {
+        
+        int n = nums.size();
+        vector<pii> numsAndIdx(n);
+
+        for(int i = 0; i < n; ++i)
+            numsAndIdx[i] = make_pair(nums[i], i);
+
+        sort(numsAndIdx.begin(), numsAndIdx.end());
+        int ll = 0;
+        int rr = nums.size() - 1;
+
+        while(ll != rr)
         {
-            for (int j = i + 1; j < digits.size(); ++j)
-            {
-                for (int k = j + 1; k < digits.size(); ++k)
-                {
-                    if(digits[i] % 2 == 0)
-                    {
-                        if(digits[k] != 0)
-                            ans.insert(digits[k] * 100 + digits[j] * 10 + digits[i]);
-                        if(digits[j] != 0)
-                            ans.insert(digits[j] * 100 + digits[k] * 10 + digits[i]);
-                    }
-                    if(digits[j] % 2 == 0)
-                    {
-                        if(digits[i] != 0)
-                            ans.insert(digits[i] * 100 + digits[k] * 10 + digits[j]);
-                        if(digits[k] != 0)
-                            ans.insert(digits[k] * 100 + digits[i] * 10 + digits[j]);
-                    }
-                    if(digits[k] % 2 == 0)
-                    {
-                        if(digits[i] != 0)
-                            ans.insert(digits[i] * 100 + digits[j] * 10 + digits[k]);
-                        if(digits[j] != 0)
-                            ans.insert(digits[j] * 100 + digits[i] * 10 + digits[k]);
-                    }
-                }
-            }
+            int v = numsAndIdx[ll].first + numsAndIdx[rr].first;
+            if(v < target)
+                ++ll;
+            else if(v > target)
+                --rr;
+            else
+                return {numsAndIdx[ll].second, numsAndIdx[rr].second};
         }
 
-        return {ans.begin(), ans.end()}; 
+        return {};
     }
 };
