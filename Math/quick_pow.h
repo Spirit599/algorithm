@@ -1,17 +1,18 @@
 //快速幂
 //quick pow
 
-long long quick_pow(int x, int n)
+const int mod = 1e9 + 7;
+int quickPow(long long x, int k)
 {
-	long long ans = 1;
-	while(n)
+	long long ret = 1;
+	while(k)
 	{
-		if(n & 1)
-			ans = ans * x;
-		n = n >> 1;
-		x = x * x;
+		if(k & 1)
+			ret = ret * x % mod;
+		k = k >> 1;
+		x = x * x % mod;
 	}
-	return ans;
+	return ret;
 }
 
 //矩阵快速幂
