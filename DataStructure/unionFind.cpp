@@ -3,9 +3,11 @@ private:
     vector<int> fa;
     vector<int> height;
     vector<int> unionSize;
+    int n;
 public:
     unionFind(int n)
     {
+        this->n = n;
         fa.resize(n, -1);
         height.resize(n, 0);
         unionSize.resize(n, 0);
@@ -46,5 +48,16 @@ public:
     bool isConnection(int x, int y)
     {
         return findFa(x) == findFa(y);
+    }
+
+    int isolatedNum()
+    {
+        int ret = 0;
+        for(int i = 0; i < n; ++i)
+        {
+            if(fa[i] == -1)
+                ++ret;
+        }
+        return ret;
     }
 };

@@ -2,6 +2,8 @@ class Solution {
 public:
     int optPrior[256];
     void makePrior() {
+
+        memset(optPrior, 0, sizeof(optPrior));
         optPrior['+'] = 1;
         optPrior['-'] = 1;
         optPrior['*'] = 2;
