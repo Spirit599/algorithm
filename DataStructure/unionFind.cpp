@@ -10,7 +10,7 @@ public:
         this->n = n;
         fa.resize(n, -1);
         height.resize(n, 0);
-        unionSize.resize(n, 0);
+        unionSize.resize(n, 1);
     }
 
     int findFa(int x)
